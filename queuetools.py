@@ -1,4 +1,5 @@
 from commands import getoutput
+from collections import defaultdict
 
 class QueueJobAnalyzer(object):
     def __init__(self):
@@ -15,19 +16,31 @@ class QueueJobAnalyzer(object):
         status_output = self.get_user_job_string(user)
         return self.user_job_postprocess(status_output)
 
-    def print_user_job_count(self, user):
+    def print_user_job_count(self, user, title=False):
+        banner = "="*35
+        if title :
+            print banner
         running, queued, other = self.get_user_job_counts(user)
         print self.output_format.format(u=user, r=running, q=queued, o=other)
+        if title :
+            print banner
 
 
 class SGEJobAnalyzer(QueueJobAnalyzer):
     def __init__(self):
         super(SGEJobAnalyzer,self).__init__()
         self.cmd_string = "qstat -u {u}"
+        self.status_start = 40
+        self.status_end = 42
 
     def user_job_postprocess(self, output):
-        print output
-        return 0, 0, 0
+        statuses = defaultdict(int)
+        for line in output.split('\n')[2:] :
+            key = line[self.status_start:self.status_end+1].strip()
+            if key not in ['r', 'qw'] :
+                key = 'o'
+            statuses[key] += 1
+        return statuses['r'], statuses['qw'], statuses['o']
 
 
 class CondorJobAnalyzer(QueueJobAnalyzer):
@@ -41,4 +54,4 @@ class CondorJobAnalyzer(QueueJobAnalyzer):
 
 if __name__=="__main__":
     test_analyzer = SGEJobAnalyzer()
-    test_analyzer.print_user_job_count("sr505")
+    test_analyzer.print_user_job_count("sr505", title=True)
