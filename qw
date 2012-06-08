@@ -2,5 +2,7 @@
 
 if __name__=="__main__":
     from queues.sgejobanalyzer import SGEJobAnalyzer
+    from getpass  import getuser
+    user = getuser()
     test_analyzer = SGEJobAnalyzer()
-    test_analyzer.print_user_job_count("sr505", title=True)
+    test_analyzer.print_user_job_count(user, title=True)
