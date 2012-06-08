@@ -1,0 +1,6 @@
+#! /usr/bin/env python
+
+if __name__=="__main__":
+    from queues.sgejobanalyzer import SGEJobAnalyzer
+    test_analyzer = SGEJobAnalyzer()
+    test_analyzer.print_user_job_count("sr505", title=True)
