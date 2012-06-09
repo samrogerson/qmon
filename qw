@@ -3,24 +3,22 @@ import sys
 from queues.sgejobanalyzer import SGEJobAnalyzer
 from getpass  import getuser
 
-def print_user_job_count(analyzer, users, title=False, output_format = None, pl = None):
+def per_user_summary(analyzer, title=False, output_format = None, pl = None):
     if output_format == None :
-        output_format = "{u:<8} {r:>8} {q:>8} {o:>8}"
-        pl = 35
+        output_format = "{u:<10}",
+        output_banner ="{:=^10}".format("")
+        per_queue_format = "{r:>5},{q:>5},{o:>5}"
 
-    sub_banner= "="*pl
-    banner = "-"*pl
-    if title :
-        print banner
+    print output_banner
     print output_format.format(u="", r="Running", q="Queued", o="Other")
     print sub_banner
-    for user in users :
-        running, queued, other = analyzer.get_user_job_counts(user)
-        print output_format.format(u=user, r=running, q=queued, o=other)
+    u_dict = analyzer.get_queue_job_counts()
+    print u_dict
+    #print output_format.format(u=user, r=running, q=queued, o=other)
     if title :
         print banner
 
-def print_queue_status(analyzer, output_format = None, pl = None) :
+def per_queue_summary(analyzer, output_format = None, pl = None) :
     output_format = "{q:<12} {a:>8} {t:>8}"
     q_dict = analyzer.get_queue_status()
     for q, cores in q_dict.iteritems() :
@@ -28,10 +26,6 @@ def print_queue_status(analyzer, output_format = None, pl = None) :
 
 if __name__=="__main__":
     userlist =[]
-    if len(sys.argv) > 1 :
-        userlist = sys.argv[1:] 
-    else :
-        userlist = [getuser()]
     test_analyzer = SGEJobAnalyzer()
-    print_user_job_count(test_analyzer, userlist, title=True)
-    print_queue_status(test_analyzer)
+    per_user_summary(test_analyzer, title=True)
+    per_queue_summary(test_analyzer)
