@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+from collections import OrderedDict
 
 from queuejobanalyzer import QueueJobAnalyzer
 
@@ -24,7 +25,9 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
 
     def _queue_status_postprocess(self, output):
         lines = filter(lambda s: not s.startswith('-'), output.split('\n')[2:])
-        statuses = defaultdict(dict)
+        statuses = OrderedDict()
+        for q in self.queues:
+            statuses[q] = defaultdict(int)
         for line in lines:
             queue = line.split('@')[0]
             if queue not in statuses :
