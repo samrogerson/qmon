@@ -61,9 +61,20 @@ def per_user_summary(analyzer, title=False, pl = None):
 
 def per_queue_summary(analyzer, output_format = None, pl = None) :
     output_format = "{q:<12} {a:>8} {t:>8}"
+    banner_format = "{:=^12}={:=^8}={:=^8}"
+    sub_banner_format = "{:-^12}-{:-^8}-{:-^8}"
+    banner = banner_format.format("","","")
+    sub_banner = sub_banner_format.format("","","")
+
     q_dict = analyzer.get_queue_status()
+    print banner
+    print output_format.format(q="Queue", a="Free", t="Total")
+    print sub_banner
+
     for q, cores in q_dict.iteritems() :
         print output_format.format(q=q, a=cores['a'], t=cores['t'])
+
+    print banner
 
 if __name__=="__main__":
     userlist =[]
