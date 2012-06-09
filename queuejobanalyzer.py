@@ -16,10 +16,13 @@ class QueueJobAnalyzer(object):
         return self.user_job_postprocess(status_output)
 
     def print_user_job_count(self, user, title=False):
-        banner = "="*35
+        sub_banner= "-"*self.pl
+        banner = "="*self.pl
         if title :
             print banner
         running, queued, other = self.get_user_job_counts(user)
+        print self.output_format.format(u="", r="Running", q="Queued", o="Other")
+        print sub_banner
         print self.output_format.format(u=user, r=running, q=queued, o=other)
         if title :
             print banner
