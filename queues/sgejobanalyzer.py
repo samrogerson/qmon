@@ -18,6 +18,8 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
             'id_start': 103,
             'q_status_start': 37,
             'q_status_end': 44,
+            'q_name_start': 67,
+            'q_name_start': 97,
         }
 
     def _queue_status_postprocess(self, output):

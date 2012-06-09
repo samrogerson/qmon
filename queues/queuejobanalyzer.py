@@ -21,6 +21,7 @@ class QueueJobAnalyzer(object):
         if queues == None:
             queues = self.queues
         q_dict = {}
+        status_output = ""
         for q in queues :
             status_output = self._get_queue_job_string(q)
             q_dict[q] = self._queue_job_postprocess(status_output)
