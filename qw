@@ -90,7 +90,7 @@ def per_queue_summary(analyzer, output_format = None, pl = None) :
     print banner
 
 if __name__=="__main__":
-    QAnalyzer = get_host_analyzer()
-    test_analyzer = QAnalyzer()
-    per_queue_summary(test_analyzer)
-    per_user_summary(test_analyzer, title=True)
+    HostQAnalyzer = get_host_analyzer()
+    QAnalyzer = HostQAnalyzer()
+    per_queue_summary(QAnalyzer)
+    per_user_summary(QAnalyzer, title=True)
