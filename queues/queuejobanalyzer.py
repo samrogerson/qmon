@@ -7,13 +7,13 @@ class QueueJobAnalyzer(object):
     def _get_queue_job_string(self, queue):
         return getoutput(self.queue_job_command.format(q=queue))
 
-    def _queue_job_postprocess(self, queue):
+    def _queue_job_postprocess(self, output):
         return None, None, None
 
     def _get_queue_status_string(self):
         return getoutput(self.queue_status_command)
 
-    def _queue_status_postprocess(self):
+    def _queue_status_postprocess(self, output):
         return None
 
     # interfaces
