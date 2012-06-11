@@ -8,6 +8,8 @@ from socket import gethostname
 HOST_DICT = {
     'fnal.gov': CondorJobAnalyzer,
     'hep.ph.ic.ac.uk': SGEJobAnalyzer,
+# used for local testing
+    'kinitos' : CondorJobAnalyzer,
 }
 
 def get_host_analyzer():
@@ -24,12 +26,10 @@ def user_status_from_queue_status(d):
     user_set = set(user_list)
 
     user_statuses = defaultdict(dict)
+    default_status = {'r':0, 'qw':0, 'o':0}
     for q, user_dict in d.iteritems():
         for user, status_dict in user_dict.iteritems():
-            for status, count in status_dict.iteritems():
-                if status not in user_statuses[user].get(q,{}):
-                    user_statuses[user][q] = defaultdict(int)
-                user_statuses[user][q][status] += count
+            user_statuses[user][q] = status_dict
     return user_statuses
 
 def per_user_summary(analyzer, title=False, pl = None):
