@@ -7,4 +7,4 @@ Currently qmon supports
 * [Condor](http://research.cs.wisc.edu/condor/)
 
 ### Requires
-* Python v &ge; 2.5
+* Python &ge; v2.5
