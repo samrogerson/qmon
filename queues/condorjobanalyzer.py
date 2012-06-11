@@ -9,9 +9,7 @@ class CondorJobAnalyzer(QueueJobAnalyzer):
         super(CondorJobAnalyzer,self).__init__()
         self.queues = ['Condor']
         self.queue_job_command = 'condor_status -submitter'.format(u=getuser())
-        #self.queue_job_command = 'cat condor_status_-submitter'
         self.queue_status_command = 'condor_status'
-        #self.queue_status_command = 'cat condor_status'
 
 
     def _queue_status_postprocess(self, output):
@@ -29,7 +27,6 @@ class CondorJobAnalyzer(QueueJobAnalyzer):
 
     def _queue_job_postprocess(self, output):
         user = getuser()
-        #user = 'isuarez'
         statuses = {}
         for line in output.split('\n')[3:-2]:
             fields = re.split('@|[ ]+', line.strip())
