@@ -23,6 +23,7 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
             'q_name_start': 97,
         }
 
+
     def _queue_status_postprocess(self, output):
         lines = filter(lambda s: not s.startswith('-'), output.split('\n')[2:])
         statuses = OrderedDict()
@@ -38,6 +39,7 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
             statuses[queue]['r'] += used
             statuses[queue]['a'] += tot - resv - used
         return statuses
+
 
     def _queue_job_postprocess(self, output):
         statuses = defaultdict(dict)
