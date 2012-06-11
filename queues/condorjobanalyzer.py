@@ -7,7 +7,7 @@ class CondorJobAnalyzer(QueueJobAnalyzer):
     def __init__(self):
         super(CondorJobAnalyzer,self).__init__()
         self.queues = ['Condor']
-        self.user_job_command = 'condor_status -submitter | grep " {u}"'.format(u=getuser())
+        self.user_job_command = 'condor_status -submitter'.format(u=getuser())
         self.queue_status_command = 'condor_status'
 
     def _get_avail(self):
