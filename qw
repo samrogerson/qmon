@@ -9,7 +9,7 @@ HOST_DICT = {
     'fnal.gov': CondorJobAnalyzer,
     'hep.ph.ic.ac.uk': SGEJobAnalyzer,
 # used for local testing
-    'kinitos' : CondorJobAnalyzer,
+    #'kinitos' : CondorJobAnalyzer,
 }
 
 def get_host_analyzer():
