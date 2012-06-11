@@ -1,3 +1,4 @@
+import re
 from queuejobanalyzer import QueueJobAnalyzer
 from collections import defaultdict
 from getpass import getuser
@@ -7,28 +8,35 @@ class CondorJobAnalyzer(QueueJobAnalyzer):
     def __init__(self):
         super(CondorJobAnalyzer,self).__init__()
         self.queues = ['Condor']
-        self.user_job_command = 'condor_status -submitter'.format(u=getuser())
+        self.queue_job_command = 'condor_status -submitter'.format(u=getuser())
+        #self.queue_job_command = 'cat condor_status_-submitter'
         self.queue_status_command = 'condor_status'
+        #self.queue_status_command = 'cat condor_status'
 
-    def _get_avail(self):
-        output = getoutput('condor_status -avail')
-        summary_line = output.split('\n')[-1]
-        avail = int(summary_line.split()[1])
-        return avail
-
-    def _user_job_postprocess(self, output):
-        print output
-        return output.split()[1:]
 
     def _queue_status_postprocess(self, output):
-        # title, running, idle, held
+        # title, total, idle, held
         summary_line = output.split('\n')[-1]
         statuses = defaultdict(dict)
-        avail = self._get_avail()
         cores = [int(c) for c in summary_line.split()[1:]]
 
         # need to use condor_status -format "%s" something
-        statuses[self.queues[0]]['r'] = cores[0]
-        statuses[self.queues[0]]['a'] = avail
-        statuses[self.queues[0]]['t'] = avail + cores[0]
+        statuses[self.queues[0]]['t'] = cores[0]
+        statuses[self.queues[0]]['r'] = cores[2]
+        statuses[self.queues[0]]['a'] = cores[3]
+        return statuses
+
+
+    def _queue_job_postprocess(self, output):
+        user = getuser()
+        #user = 'isuarez'
+        statuses = {}
+        for line in output.split('\n')[3:-2]:
+            fields = re.split('@|[ ]+', line.strip())
+            if len(fields) != 5 or fields[0] != user:
+                continue
+            # we're not in a title line
+            s = [int(f) for f in fields[2:]]
+            status = {'r': s[0], 'qw': s[1], 'o': s[2]}
+            statuses[user] = status
         return statuses
