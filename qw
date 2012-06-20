@@ -3,7 +3,6 @@ import sys
 
 from queues.sgejobanalyzer import SGEJobAnalyzer
 from queues.condorjobanalyzer import CondorJobAnalyzer
-from collections import defaultdict
 
 import modules.summary as summary
 from modules.hosts import get_host_analyzer

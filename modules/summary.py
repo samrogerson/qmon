@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 def user_status_from_queue_status(d):
     # get our unique list of users
     user_list = []
