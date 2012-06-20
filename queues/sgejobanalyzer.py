@@ -9,7 +9,7 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
         super(SGEJobAnalyzer,self).__init__()
         self.queues = ['hepshort.q', 'hepmedium.q', 'heplong.q']
         self.queue_job_command = 'qstat -q {q} -u "*"'
-        self.queue_status_command = 'qstat -f'
+        self.queue_status_command = 'qstat -g c'
 
         self.pos = {
             'user_start': 27,
@@ -17,27 +17,25 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
             'status_start': 40,
             'status_end': 42,
             'id_start': 103,
-            'q_status_start': 37,
-            'q_status_end': 44,
-            'q_name_start': 67,
-            'q_name_start': 97,
         }
 
 
     def _queue_status_postprocess(self, output):
-        lines = filter(lambda s: not s.startswith('-'), output.split('\n')[2:])
+        lines = output.split('\n')[2:]
+
         statuses = OrderedDict()
         for q in self.queues:
             statuses[q] = defaultdict(int)
+
         for line in lines:
-            queue = line.split('@')[0]
-            if queue not in statuses :
-                statuses[queue] = defaultdict(int)
-            q_status_str = line[self.pos['q_status_start']:self.pos['q_status_end']].strip()
-            resv, used, tot = map(int,q_status_str.split('/'))
-            statuses[queue]['t'] += tot
+            fields = line.split()
+            queue = fields[0]
+            used = int(fields[2])
+            available = int(fields[4])
+            total  = int(fields[5])
+            statuses[queue]['t'] += total
             statuses[queue]['r'] += used
-            statuses[queue]['a'] += tot - resv - used
+            statuses[queue]['a'] += available
         return statuses
 
 
