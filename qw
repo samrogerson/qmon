@@ -8,9 +8,11 @@ import modules.summary as summary
 from modules.hosts import get_host_analyzer
 
 
-
-if __name__=="__main__":
+def full_summary():
     HostQAnalyzer = get_host_analyzer()
     QAnalyzer = HostQAnalyzer()
     summary.per_queue(QAnalyzer)
     summary.per_user(QAnalyzer, title=True)
+
+if __name__=="__main__":
+    full_summary()
