@@ -1,5 +1,15 @@
 from collections import defaultdict
 
+from queues.sgejobanalyzer import SGEJobAnalyzer
+from queues.condorjobanalyzer import CondorJobAnalyzer
+from modules.hosts import get_host_analyzer
+
+def full_summary():
+    HostQAnalyzer = get_host_analyzer()
+    QAnalyzer = HostQAnalyzer()
+    per_queue(QAnalyzer)
+    per_user(QAnalyzer, title=True)
+
 def user_status_from_queue_status(d):
     # get our unique list of users
     user_list = []
