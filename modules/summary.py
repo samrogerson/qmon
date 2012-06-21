@@ -2,11 +2,8 @@ from collections import defaultdict
 
 from queues.sgejobanalyzer import SGEJobAnalyzer
 from queues.condorjobanalyzer import CondorJobAnalyzer
-from modules.hosts import get_host_analyzer
 
-def full_summary():
-    HostQAnalyzer = get_host_analyzer()
-    QAnalyzer = HostQAnalyzer()
+def full_summary(QAnalyzer):
     per_queue(QAnalyzer)
     per_user(QAnalyzer, title=True)
 
