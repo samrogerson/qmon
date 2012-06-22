@@ -8,10 +8,10 @@ from modules.summary import full_summary
 
 def opts() :
     parser = OptionParser("usage: %prog [options]")
-    parser.add_option("--local-debug", dest="local_debug",
+    parser.add_option("-l", "--local-debug", dest="local_debug",
                       default=None, metavar="Q",
                       help="use text files instead of calling status commands")
-    parser.add_option("--watch", dest="watch", default=None, metavar="N",
+    parser.add_option("-w", "--watch", dest="watch", default=None, metavar="N",
                       type="int", help="show status every N seconds")
     options,args = parser.parse_args()
     return options, args
