@@ -16,8 +16,20 @@ def opts() :
     options,args = parser.parse_args()
     return options, args
 
+def watch_queues(analyzer,delay):
+    import threading
+    fsum = threading.Timer(delay,full_summary,analyzer)
+    try:
+        while True:
+            fsum.start()
+    except KeyboardInterrupt:
+        exit()
+
 if __name__=="__main__":
     options, args = opts()
     HostQAnalyzer = get_host_analyzer()
     QAnalyzer = HostQAnalyzer()
+    repeat = (options.watch is not None)
     full_summary(QAnalyzer)
+    if repeat:
+        watch_queues(QAnalyzer,options.watch)
