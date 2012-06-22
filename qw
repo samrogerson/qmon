@@ -12,16 +12,16 @@ def opts() :
                       default=None, metavar="Q",
                       help="use text files instead of calling status commands")
     parser.add_option("--watch", dest="watch", default=None, metavar="N",
-                      help="show status every N seconds")
+                      type="int", help="show status every N seconds")
     options,args = parser.parse_args()
     return options, args
 
 def watch_queues(analyzer,delay):
-    import threading
-    fsum = threading.Timer(delay,full_summary,analyzer)
+    import time
     try:
         while True:
-            fsum.start()
+            time.sleep(delay)
+            full_summary(analyzer)
     except KeyboardInterrupt:
         exit()
 
