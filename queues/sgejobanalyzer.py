@@ -1,6 +1,5 @@
 import re
 from collections import defaultdict
-from collections import OrderedDict
 
 from queuejobanalyzer import QueueJobAnalyzer
 
@@ -23,7 +22,7 @@ class SGEJobAnalyzer(QueueJobAnalyzer):
     def _queue_status_postprocess(self, output):
         lines = output.split('\n')[2:]
 
-        statuses = OrderedDict()
+        statuses = {}
         for q in self.queues:
             statuses[q] = defaultdict(int)
 
