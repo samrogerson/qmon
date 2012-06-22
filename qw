@@ -16,6 +16,7 @@ def opts() :
     options,args = parser.parse_args()
     return options, args
 
+
 def watch_queues(analyzer,delay):
     import time
     try:
@@ -24,6 +25,7 @@ def watch_queues(analyzer,delay):
             full_summary(analyzer)
     except KeyboardInterrupt:
         exit()
+
 
 if __name__=="__main__":
     options, args = opts()
