@@ -19,11 +19,28 @@ def opts() :
 
 def watch_queues(analyzer,delay):
     import time
+    import curses
+
+    import locale
+    locale.setlocale(locale.LC_ALL, '')
+    code = locale.getpreferredencoding()
+
+    stdscr = curses.initscr()
+    curses.noecho()
+
+    # nice lil closure hack
+    def updatescr(str):
+        stdscr.addstr(str+"\n")
+        stdscr.refresh()
+
     try:
         while True:
+            stdscr.clear()
+            full_summary(analyzer, outfunc=updatescr)
             time.sleep(delay)
-            full_summary(analyzer)
     except KeyboardInterrupt:
+        curses.nocbreak(); stdscr.keypad(0); curses.echo()
+        curses.endwin()
         exit()
 
 
@@ -32,6 +49,7 @@ if __name__=="__main__":
     HostQAnalyzer = get_host_analyzer()
     QAnalyzer = HostQAnalyzer()
     repeat = (options.watch is not None)
-    full_summary(QAnalyzer)
     if repeat:
         watch_queues(QAnalyzer,options.watch)
+    else:
+        full_summary(QAnalyzer)
