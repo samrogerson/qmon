@@ -21,7 +21,7 @@ def user_status_from_queue_status(d):
             user_statuses[user][q] = status_dict
     return user_statuses
 
-def per_user(analyzer, title=False, pl = None):
+def per_user(analyzer, title=False):
     output_format = "{u:<10}"
     per_queue_format = "[{r:>3},{q:>4},{o:>4}] "
     queue_title_format = "{q:<16}"
@@ -60,7 +60,7 @@ def per_user(analyzer, title=False, pl = None):
     if title :
         print banner
 
-def per_queue(analyzer, output_format = None, pl = None) :
+def per_queue(analyzer, output_format = None) :
     output_format = "{q:<12} {a:>8} {t:>8}"
     banner_format = "{:=^12}={:=^8}={:=^8}"
     sub_banner_format = "{:-^12}-{:-^8}-{:-^8}"
