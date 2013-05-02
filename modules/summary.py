@@ -1,9 +1,15 @@
 from __future__ import print_function
 
 from collections import defaultdict
+from getpass  import getuser
 
 from queues.sgejobanalyzer import SGEJobAnalyzer
 from queues.condorjobanalyzer import CondorJobAnalyzer
+
+username = getuser()
+
+def ansi_bold(s):
+    return "\033[1m{0}\033[0m".format(s)
 
 def full_summary(QAnalyzer,outfunc=print, out_end=""):
     per_queue(QAnalyzer, outfunc=outfunc)
@@ -52,6 +58,8 @@ def per_user(analyzer, title=False, outfunc=print):
     default_statuses = { 'r': 0, 'qw': 0, 'o': 0 }
     for user, job_info in user_status.iteritems():
         u_string = output_format.format(u=user)
+        if user ==  username:
+            u_string = ansi_bold(u_string)
         for queue in analyzer.queues:
             r = job_info.get(queue,default_statuses).get('r',0)
             q = job_info.get(queue,default_statuses).get('qw',0)
