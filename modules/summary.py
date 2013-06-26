@@ -31,13 +31,13 @@ def user_status_from_queue_status(d):
 
 def per_user(analyzer, title=False, outfunc=print):
     output_format = "{u:<10}"
-    per_queue_format = "[{r:>3},{q:>4},{o:>4}] "
-    queue_title_format = "{q:<16}"
+    per_queue_format = "[{r:>3},{q:>5},{o:>4}] "
+    queue_title_format = "{q:<17}"
 
     output_banner ="{:=^10}".format("")
     output_sub_banner ="{:-^10}".format("")
-    queue_banner_base = "=={:=^3}={:=^4}={:=^4}=".format("","","")
-    queue_sub_banner_base = "--{:-^3}-{:-^4}-{:-^4}-".format("","","")
+    queue_banner_base = "=={:=^3}={:=^5}={:=^4}=".format("","","")
+    queue_sub_banner_base = "--{:-^3}-{:-^5}-{:-^4}-".format("","","")
 
     banner = output_banner
     sub_banner = output_sub_banner
